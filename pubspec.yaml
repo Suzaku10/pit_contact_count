@@ -1,6 +1,6 @@
 name: pit_contact_count
-description: Plugin for count contact, this plugin depends on other plugins, you must have a permission to use this plugin, you can use `pit_permission` plugin or other permission plugin. dont forget to add permission in AndroidManifest.xml (for Android) and info.plist (for IOS)
-version: 0.0.1
+description: Plugin for count contact, you must have a permission to use this plugin, you can use `pit_permission` plugin or other permission plugin.
+version: 0.1.0
 author: Yudistira Yoga <yudhistiray198@gmail.com>
 homepage: https://github.com/Suzaku10/pit_contact_count
 

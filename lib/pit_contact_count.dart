@@ -10,4 +10,9 @@ class PitContactCount {
     final int count = await _channel.invokeMethod('getContactCount');
     return count;
   }
+
+  static Future<List<dynamic>> getContactList() async {
+    var result = await _channel.invokeMethod("getContactList");
+    return result;
+  }
 }

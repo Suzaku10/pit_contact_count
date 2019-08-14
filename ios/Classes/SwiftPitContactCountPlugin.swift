@@ -13,6 +13,14 @@ public class SwiftPitContactCountPlugin: NSObject, FlutterPlugin {
         if call.method.elementsEqual("getContactCount"){
             let count = getContactCount()
             result(count)
+        } else if(call.method.elementsEqual("getContactList")){
+            if #available(iOS 9.0, *) {
+                let res = getContactList()
+                result(res)
+            } else {
+                result(nil)
+            }
+            
         }
     }
     
@@ -33,5 +41,26 @@ public class SwiftPitContactCountPlugin: NSObject, FlutterPlugin {
             }
         }
         return count ?? 0
+    }
+    
+    @available(iOS 9.0, *)
+    public func getContactList() -> [[String: Any]] {
+        var results: [[String: Any]] = []
+        if #available(iOS 9.0, *) {
+            var contactStore = CNContactStore()
+            do {
+                try contactStore.enumerateContacts(with: CNContactFetchRequest(keysToFetch: [CNContactGivenNameKey as CNKeyDescriptor, CNContactFamilyNameKey as CNKeyDescriptor, CNContactPhoneNumbersKey as CNKeyDescriptor])) {
+                    (contact, cursor) -> Void in
+                    var res: [String: Any] = [:]
+                    res["displayName"] = "\(contact.givenName) \(contact.familyName)"
+                    res["phoneNumber"] = contact.phoneNumbers.isEmpty ? "-" :contact.phoneNumbers[0].value.value(forKey: "digits") as! String
+                    results.append(res)
+                }
+            }
+            catch{
+                print("Handle the error please")
+            }
+        }
+        return results ?? []
     }
 }

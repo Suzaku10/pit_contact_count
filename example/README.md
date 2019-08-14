@@ -15,6 +15,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int _contactCount = 0;
+  List<dynamic> result = [];
 
   @override
   void initState() {
@@ -27,6 +28,8 @@ class _MyAppState extends State<MyApp> {
 
     try {
       contactCount = await PitContactCount.getContactCount();
+      result = await PitContactCount.getContactList();
+      print(result);
     } on PlatformException {
       contactCount = -1;
     }
@@ -42,13 +45,14 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('PitContactCount Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Total Contact in Your Phone: $_contactCount\n'),
-        ),
-      ),
+          appBar: AppBar(
+            title: const Text('PitContactCount Plugin example app'),
+          ),
+          body: SingleChildScrollView(
+            child: Center(
+              child: Text('Total Contact in Your Phone: $_contactCount\n $result'),
+            ),
+          )),
     );
   }
 }
