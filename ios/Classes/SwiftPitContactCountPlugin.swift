@@ -10,18 +10,7 @@ public class SwiftPitContactCountPlugin: NSObject, FlutterPlugin {
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        if call.method.elementsEqual("getContactCount"){
-            let count = getContactCount()
-            result(count)
-        } else if(call.method.elementsEqual("getContactList")){
-            if #available(iOS 9.0, *) {
-                let res = getContactList()
-                result(res)
-            } else {
-                result(nil)
-            }
-            
-        }
+        result(FlutterMethodNotImplemented)
     }
     
     public func getContactCount() -> Int {
