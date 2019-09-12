@@ -1,4 +1,4 @@
-class AddressModel {
+class Address {
   final String fullAddress;
   final String street;
   final String city;
@@ -6,10 +6,10 @@ class AddressModel {
   final String country;
   final String postCode;
 
-  AddressModel({this.fullAddress, this.street, this.city, this.region, this.country, this.postCode});
+  Address({this.fullAddress, this.street, this.city, this.region, this.country, this.postCode});
 
-  factory AddressModel.fromJson(Map<String, dynamic> json) {
-    return AddressModel(
+  factory Address.fromJson(Map<String, dynamic> json) {
+    return Address(
       fullAddress: json["data1"] as String,
       street: json["data4"] as String,
       city: json["data7"] as String,
@@ -20,21 +20,21 @@ class AddressModel {
   }
 }
 
-class OrganizationModel {
+class Organization {
   final String company;
   final String jobTitle;
   final String departement;
   final String officeLocation;
 
-  OrganizationModel({this.company, this.jobTitle, this.departement, this.officeLocation});
+  Organization({this.company, this.jobTitle, this.departement, this.officeLocation});
 
   @override
   toString() {
     return "{company: ${this.company}, jobTitle: ${this.jobTitle}, departement: ${this.departement}, officeLocation: ${this.officeLocation}";
   }
 
-  factory OrganizationModel.fromJson(Map<String, dynamic> json) {
-    return OrganizationModel(
+  factory Organization.fromJson(Map<String, dynamic> json) {
+    return Organization(
         company: json["data1"] as String,
         jobTitle: json["data4"] as String,
         departement: json["data5"] as String,
@@ -42,90 +42,144 @@ class OrganizationModel {
   }
 }
 
-class RelationModel {
+class Relation {
   final String relation;
-  final String relationType;
+  final RelationType relationType;
 
-  RelationModel({this.relation, this.relationType});
+  Relation({this.relation, this.relationType});
 
   @override
   toString() {
     return "{relation: ${this.relation}, relationType: ${this.relationType}}";
   }
 
-  factory RelationModel.fromJson(Map<String, dynamic> json) {
-    List<String> relationTypeList = [
-      "TYPE_ASSISTANT",
-      "TYPE_BROTHER",
-      "TYPE_CHILD",
-      "TYPE_DOMESTIC_PARTNER",
-      "TYPE_FATHER",
-      "TYPE_FRIEND",
-      "TYPE_MANAGER",
-      "TYPE_MOTHER",
-      "TYPE_PARTNER",
-      "TYPE_REFERRED_BY",
-      "TYPE_RELATIVE",
-      "TYPE_SISTER",
-      "TYPE_SPOUSE"
-    ];
-
+  factory Relation.fromJson(Map<String, dynamic> json) {
+    RelationType result;
     int index = (int.tryParse(json["data2"]) - 1);
-    String relationType = index != -1 ? relationTypeList[index] : null;
 
-    return RelationModel(relation: json["data1"] as String, relationType: relationType);
+    switch (index) {
+      case 0:
+        result = RelationType.assistant;
+        break;
+      case 1:
+        result = RelationType.brother;
+        break;
+      case 2:
+        result = RelationType.child;
+        break;
+      case 3:
+        result = RelationType.domesticPartner;
+        break;
+      case 4:
+        result = RelationType.father;
+        break;
+      case 5:
+        result = RelationType.friend;
+        break;
+      case 6:
+        result = RelationType.manager;
+        break;
+      case 7:
+        result = RelationType.mother;
+        break;
+      case 8:
+        result = RelationType.partner;
+        break;
+      case 9:
+        result = RelationType.referredBy;
+        break;
+      case 10:
+        result = RelationType.relative;
+        break;
+      case 11:
+        result = RelationType.sister;
+        break;
+      case 12:
+        result = RelationType.spouse;
+        break;
+      default:
+        break;
+    }
+
+    return Relation(relation: json["data1"] as String, relationType: result);
   }
 }
 
-class EventModel {
-  final String dateString;
-  final String eventType;
+class Event {
+  final int timeStamp;
+  final EventType eventType;
 
-  EventModel({this.dateString, this.eventType});
+  Event({this.timeStamp, this.eventType});
 
   @override
   toString() {
-    return "{dateString: ${this.dateString} , eventType: ${this.eventType}}";
+    return "{timeStamp: ${this.timeStamp} , eventType: ${this.eventType}}";
   }
 
-  factory EventModel.fromJson(Map<String, dynamic> json) {
-    List<String> eventTypeList = ["TYPE_ANNIVERSARY", "TYPE_BIRTHDAY", "TYPE_OTHER"];
+  factory Event.fromJson(Map<String, dynamic> json) {
+    EventType result;
+    int index = (json["data2"] - 1);
 
-    int index = (int.tryParse(json["data2"]) - 1);
-    String eventTypeString = index != -1 ? eventTypeList[index] : null;
+    switch (index) {
+      case 0:
+        result = EventType.anniversary;
+        break;
+      case 1:
+        result = EventType.birthday;
+        break;
+      case 2:
+        result = EventType.other;
+        break;
+      default:
+        break;
+    }
 
-    return EventModel(dateString: json["data1"] as String, eventType: eventTypeString);
+    return Event(timeStamp: json["data1"] as int, eventType: result);
   }
 }
 
-class WebsiteModel {
+class Website {
   final String websiteUrl;
-  final String websiteType;
+  final WebsiteType websiteType;
 
-  WebsiteModel({this.websiteUrl, this.websiteType});
+  Website({this.websiteUrl, this.websiteType});
 
   @override
   toString() {
     return "{websiteUrl: ${this.websiteUrl} , websiteType: ${this.websiteType}}";
   }
 
-  factory WebsiteModel.fromJson(Map<String, dynamic> json) {
-    List<String> websiteTypeList = ["TYPE_HOMEPAGE", "TYPE_BLOG", "TYPE_PROFILE", "TYPE_HOME", "TYPE_WORK", "TYPE_FTP", "TYPE_OTHER"];
+  factory Website.fromJson(Map<String, dynamic> json) {
+    WebsiteType result;
+    int index =  (int.tryParse(json["data2"]) - 1);
 
-    int index = (int.tryParse(json["data2"]) - 1);
-    String websiteTypeString = index != -1 ? websiteTypeList[index] : null;
+    switch (index) {
+      case 0:
+        result = WebsiteType.homepage;
+        break;
+      case 1:
+        result = WebsiteType.blog;
+        break;
+      case 2:
+        result = WebsiteType.profile;
+        break;
+      case 3:
+        result = WebsiteType.home;
+        break;
+      case 4:
+        result = WebsiteType.work;
+        break;
+      case 5:
+        result = WebsiteType.ftp;
+        break;
+      case 6:
+        result = WebsiteType.other;
+        break;
+      default:
+        break;
+    }
 
-    return WebsiteModel(websiteUrl: json["data1"] as String, websiteType: websiteTypeString);
-  }
-}
-
-class NoteModel {
-  final String note;
-
-  NoteModel({this.note});
-
-  factory NoteModel.fromJson(Map<String, dynamic> json) {
-    return NoteModel(note: json["data1"] as String);
+    return Website(websiteUrl: json["data1"] as String, websiteType: result);
   }
 }
 
@@ -133,32 +187,34 @@ class ContactModel {
   final String phoneNumber;
   final String displayName;
   final List<String> email;
-  final List<AddressModel> address;
-  final OrganizationModel organization;
-  final List<RelationModel> relation;
-  final NoteModel note;
-  final List<EventModel> event;
-  final List<WebsiteModel> website;
+  final List<Address> address;
+  final Organization organization;
+  final List<Relation> relation;
+  final String note;
+  final List<Event> event;
+  final List<Website> website;
 
   ContactModel(
       {this.phoneNumber,
-        this.displayName,
-        this.email,
-        this.address,
-        this.organization,
-        this.relation,
-        this.note,
-        this.event,
-        this.website});
+      this.displayName,
+      this.email,
+      this.address,
+      this.organization,
+      this.relation,
+      this.note,
+      this.event,
+      this.website});
+
+  @override
+  toString() => "result : ${phoneNumber} \n ${relation} \n ${event}";
 
   factory ContactModel.fromJson(Map<String, dynamic> json) {
-    List<AddressModel> addresModelList = [];
-    List<RelationModel> relationModelList = [];
-    List<EventModel> eventModelList = [];
-    List<WebsiteModel> websiteModelList = [];
+    List<Address> addresModelList = [];
+    List<Relation> RelationList = [];
+    List<Event> EventList = [];
+    List<Website> WebsiteList = [];
     List<String> emailList = [];
-    OrganizationModel organizationModelResult;
-    NoteModel noteModelResult;
+    Organization OrganizationResult;
 
     if (json["email"] != null) {
       List<dynamic> result = json["email"];
@@ -170,43 +226,38 @@ class ContactModel {
     if (json["address"] != null) {
       List<dynamic> result = json["address"];
       result.forEach((item) {
-        AddressModel eachItem = AddressModel.fromJson(Map<String, dynamic>.from(item));
+        Address eachItem = Address.fromJson(Map<String, dynamic>.from(item));
         addresModelList.add(eachItem);
       });
     }
 
     if (json["organization"] != null) {
       Map<String, dynamic> result = Map.from(json["organization"]);
-      organizationModelResult = OrganizationModel.fromJson(result);
+      OrganizationResult = Organization.fromJson(result);
     }
 
     if (json["relation"] != null) {
       List<dynamic> result = json["relation"];
       result.forEach((item) {
-        RelationModel eachItem = RelationModel.fromJson(Map<String, dynamic>.from(item));
-        relationModelList.add(eachItem);
+        Relation eachItem = Relation.fromJson(Map<String, dynamic>.from(item));
+        RelationList.add(eachItem);
       });
     }
 
     if (json["event"] != null) {
       List<dynamic> result = json["event"];
       result.forEach((item) {
-        EventModel eachItem = EventModel.fromJson(Map<String, dynamic>.from(item));
-        eventModelList.add(eachItem);
+        Event eachItem = Event.fromJson(Map<String, dynamic>.from(item));
+        EventList.add(eachItem);
       });
     }
 
     if (json["website"] != null) {
       List<dynamic> result = json["website"];
       result.forEach((item) {
-        WebsiteModel eachItem = WebsiteModel.fromJson(Map<String, dynamic>.from(item));
-        websiteModelList.add(eachItem);
+        Website eachItem = Website.fromJson(Map<String, dynamic>.from(item));
+        WebsiteList.add(eachItem);
       });
-    }
-
-    if (json["note"] != null) {
-      Map<String, dynamic> result = Map.from(json["note"]);
-      noteModelResult = NoteModel.fromJson(result);
     }
 
     return ContactModel(
@@ -214,10 +265,30 @@ class ContactModel {
         displayName: json["display_name"] as String,
         email: emailList,
         address: addresModelList,
-        organization: organizationModelResult,
-        relation: relationModelList,
-        note: noteModelResult,
-        event: eventModelList,
-        website: websiteModelList);
+        organization: OrganizationResult,
+        relation: RelationList,
+        note: json["note"] as String,
+        event: EventList,
+        website: WebsiteList);
   }
 }
+
+enum EventType { anniversary, birthday, other }
+
+enum RelationType {
+  assistant,
+  brother,
+  child,
+  domesticPartner,
+  father,
+  friend,
+  manager,
+  mother,
+  partner,
+  referredBy,
+  relative,
+  sister,
+  spouse
+}
+
+enum WebsiteType { homepage, blog, profile, home, work, ftp, other }

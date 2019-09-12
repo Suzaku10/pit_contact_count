@@ -1,3 +1,7 @@
+## 0.1.1+2
+
+* Contact Model renewed
+
 ## 0.1.1+1
 
 * add changelog revision

@@ -8,7 +8,10 @@ import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,13 +72,12 @@ public class PitContactCountPlugin implements MethodCallHandler {
                 ContactsContract.CommonDataKinds.Phone.NUMBER,
                 ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
         };
+
         try {
             Cursor cursor = context.getContentResolver().query(
                     ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projections, null,
                     null, null);
-//            Cursor cursor = context.getContentResolver().query(
-//                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projections, ContactsContract.CommonDataKinds.Phone.NUMBER + "=?",
-//                    new String[]{"1234"}, null);
+
             if (cursor != null) {
                 for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                     final String[] emailProjection = new String[]{ContactsContract.CommonDataKinds.Email.ADDRESS};
@@ -117,7 +119,7 @@ public class PitContactCountPlugin implements MethodCallHandler {
 
                     final Cursor note = context.getContentResolver().query(
                             ContactsContract.Data.CONTENT_URI,
-                            relationProjection,
+                            noteProjection,
                             ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?",
                             new String[]{String.valueOf(cursor.getString(0)), ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE},
                             null);
@@ -190,7 +192,20 @@ public class PitContactCountPlugin implements MethodCallHandler {
                         for (event.moveToFirst(); !event.isAfterLast(); event.moveToNext()) {
                             Map<String, Object> eventResult = new HashMap<>();
                             for (int i = 0; i < eventProjection.length; i++) {
-                                eventResult.put(eventProjection[i], event.getString(i));
+                                if (eventProjection[i].equals(ContactsContract.CommonDataKinds.Event.START_DATE)) {
+                                    String dateString = event.getString(0);
+                                    if (dateString.startsWith("-")) {
+                                        DateFormat df = new SimpleDateFormat("MM-d");
+                                        Date date = df.parse(dateString.substring(2));
+                                        eventResult.put(eventProjection[i], date.getTime() / 1000);
+                                    } else {
+                                        DateFormat df = new SimpleDateFormat("yyyy-MM-d");
+                                        Date date = df.parse(dateString);
+                                        eventResult.put(eventProjection[i], date.getTime() / 1000);
+                                    }
+                                } else {
+                                    eventResult.put(eventProjection[i], event.getInt(i));
+                                }
                             }
                             eventList.add(eventResult);
                         }
@@ -207,17 +222,13 @@ public class PitContactCountPlugin implements MethodCallHandler {
                             }
                             websiteList.add(websiteResult);
                         }
+
                         result.put("website", websiteList);
                         website.close();
                     }
 
                     if (note.moveToFirst()) {
-                        Map<String, Object> noteResult = new HashMap<>();
-
-                        for (int i = 0; i < noteProjection.length; i++) {
-                            noteResult.put(noteProjection[i], note.getString(i));
-                        }
-                        result.put("note", noteResult);
+                        result.put("note", note.getString(0));
                     }
 
                     res.add(result);
