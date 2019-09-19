@@ -9,7 +9,7 @@ Use this Plugin for count a contact
 First, add `pit_contact_count` as a [dependency in your pubspec.yaml file](https://flutter.io/platform-plugins/).
 
 ```
-pit_contact_count: ^0.1.1+2
+pit_contact_count: ^0.1.2
 ```
 
 ## Important
@@ -24,6 +24,11 @@ You must add this permission in AndroidManifest.xml for Android
 for read Contact = <uses-permission android:name="android.permission.READ_CONTACTS"/>
 ```
 
+*Note* : ^0.1.2 added enum
+## Enum
+```
+   enum ContactInfo { contactOnly, allData, contactEmailAndAddress }
+```
 
 ## Example for Get Contact Count
 ```
@@ -32,5 +37,11 @@ for read Contact = <uses-permission android:name="android.permission.READ_CONTAC
 
 ## Example for Get ContactList
 ```
-    List<ContactModel> result = await PitContactCount.getContactList();
+    List<ContactModel> result = await PitContactCount.getContactList(ContactInfo.contactOnly);
+```
+
+## Example for Get getContactStringJson
+*Note*: support on ^0.1.2
+```
+   String result = await PitContactCount.getContactStringJson(ContactInfo.contactOnly);
 ```

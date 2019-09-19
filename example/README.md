@@ -5,6 +5,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:pit_contact_count/pit_contact_count.dart';
+import 'package:pit_contact_count/model.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,7 +16,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int _contactCount = 0;
-  List<dynamic> result = [];
+  List<ContactModel> result = [];
+  String contactJson;
 
   @override
   void initState() {
@@ -25,11 +27,13 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> getContactCount() async {
     int contactCount;
+    List<ContactModel> _list = [];
+    String _contactJson;
 
     try {
       contactCount = await PitContactCount.getContactCount();
-      result = await PitContactCount.getContactList();
-      print(result);
+      _contactJson = await PitContactCount.getContactStringJson(ContactInfo.allData);
+      _list = await PitContactCount.getContactList(ContactInfo.allData);
     } on PlatformException {
       contactCount = -1;
     }
@@ -38,6 +42,8 @@ class _MyAppState extends State<MyApp> {
 
     setState(() {
       _contactCount = contactCount;
+      result = _list;
+      contactJson = _contactJson;
     });
   }
 
@@ -50,7 +56,7 @@ class _MyAppState extends State<MyApp> {
           ),
           body: SingleChildScrollView(
             child: Center(
-              child: Text('Total Contact in Your Phone: $_contactCount\n $result'),
+              child: Text('Total Contact in Your Phone: ${contactJson}\n $_contactCount\n $result'),
             ),
           )),
     );

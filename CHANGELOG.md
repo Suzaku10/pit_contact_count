@@ -1,3 +1,8 @@
+## 0.1.2
+
+* added getContactStringJson method that return in String
+* add enum param on getContactStringJson and getContactList
+
 ## 0.1.1+2
 
 * Contact Model renewed
