@@ -1,6 +1,6 @@
 name: pit_contact_count
 description: Plugin for count contact, you must have a permission to use this plugin, you can use `pit_permission` plugin or other permission plugin.
-version: 0.1.2
+version: 0.1.2+1
 author: Yudistira Yoga <yudhistiray198@gmail.com>
 homepage: https://github.com/Suzaku10/pit_contact_count
 

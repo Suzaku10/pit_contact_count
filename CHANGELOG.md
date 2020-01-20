@@ -1,3 +1,7 @@
+## 0.1.2+1
+
+* Update compileSdkVersion to 28
+
 ## 0.1.2
 
 * added getContactStringJson method that return in String
