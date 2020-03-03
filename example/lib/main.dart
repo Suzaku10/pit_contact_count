@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
           ),
           body: SingleChildScrollView(
             child: Center(
-              child: Text('Total Contact in Your Phone: ${contactJson}\n $_contactCount\n $result'),
+              child: Text('Total Contact in Your Phone: $_contactCount\nContact Json : ${contactJson}\nContact List : $result'),
             ),
           )),
     );

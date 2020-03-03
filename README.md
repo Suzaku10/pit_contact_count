@@ -9,7 +9,7 @@ Use this Plugin for count a contact
 First, add `pit_contact_count` as a [dependency in your pubspec.yaml file](https://flutter.io/platform-plugins/).
 
 ```
-pit_contact_count: ^0.1.2+1
+pit_contact_count: ^0.1.3
 ```
 
 ## Important

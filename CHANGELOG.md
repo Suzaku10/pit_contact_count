@@ -1,3 +1,9 @@
+## 0.1.3
+
+* Add get Contact String Json for IOS
+* Add get Contact with Email and Address for IOS
+* Add get Contact with All Info for IOS
+
 ## 0.1.2+1
 
 * Update compileSdkVersion to 28

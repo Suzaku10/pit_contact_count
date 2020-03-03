@@ -8,6 +8,12 @@ class Address {
 
   Address({this.fullAddress, this.street, this.city, this.region, this.country, this.postCode});
 
+
+  @override
+  String toString() {
+    return 'Address{fullAddress: $fullAddress, street: $street, city: $city, region: $region, country: $country, postCode: $postCode}';
+  }
+
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
       fullAddress: json["data1"] as String,
@@ -205,8 +211,12 @@ class ContactModel {
       this.event,
       this.website});
 
+
   @override
-  toString() => "result : ${phoneNumber} \n ${relation} \n ${event}";
+  String toString() {
+    return 'Contact{phoneNumber: $phoneNumber, displayName: $displayName, email: ${email.toString()}, address: ${address.toString()}, organization: ${organization.toString()}, relation: ${relation.toString()}, note: $note, event: ${event.toString()}, website: ${website.toString()}';
+  } //  @override
+//  toString() => "result : ${phoneNumber} \n ${relation} \n ${event}";
 
   factory ContactModel.fromJson(Map<String, dynamic> json) {
     List<Address> addresModelList = [];
